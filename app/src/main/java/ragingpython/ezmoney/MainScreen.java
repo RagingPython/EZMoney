@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class MainScreen extends AppCompatActivity {
 
+    private EZDbConnector dbConnector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
