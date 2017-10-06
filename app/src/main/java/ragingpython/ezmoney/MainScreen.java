@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainScreen extends AppCompatActivity implements View.OnClickListener{
@@ -12,14 +13,20 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
     private EZDbContainer dbConnector;
 
     private Button btnTest;
+    private LinearLayout walletsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        
+
         btnTest=(Button) findViewById(R.id.btnTest);
+        walletsContainer = (LinearLayout) findViewById(R.id.walletsContainer);
         btnTest.setOnClickListener(this);
+        for (int i=0; i<3; i++) {
+            WalletVisualComponent c = new WalletVisualComponent(getApplicationContext(),"Wallet"+String.valueOf(i+1),Float.valueOf(i*i*i));
+            walletsContainer.addView(c);
+        }
     }
 
     public void onClick(View view) {
