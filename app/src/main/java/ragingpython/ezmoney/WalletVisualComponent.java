@@ -1,6 +1,7 @@
 package ragingpython.ezmoney;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +13,9 @@ public class WalletVisualComponent extends RelativeLayout implements View.OnClic
     private Button btnShowOperations;
     private TextView viewName;
     private TextView viewBalance;
-    private float bal;
 
 
-    public WalletVisualComponent(Context context, String name, Float balance) {
+    public WalletVisualComponent(Context context, Cursor walletCursor) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.wallet_item, this);
@@ -23,14 +23,14 @@ public class WalletVisualComponent extends RelativeLayout implements View.OnClic
         viewName = (TextView) findViewById(R.id.textView_walletName);
         viewBalance = (TextView) findViewById(R.id.textView_balance);
         btnShowOperations.setOnClickListener(this);
-        viewName.setText(name);
-        viewBalance.setText(String.valueOf(balance));
-        bal = balance;
+
+        int columnId;
+        viewName.setText(walletCursor.getString(walletCursor.getColumnIndex("name")));
+        viewBalance.setText(walletCursor.getString(walletCursor.getColumnIndex("balance")));
     }
 
     public void onClick(View view) {
-        bal=bal+1;
-        viewBalance.setText(String.valueOf(bal));
+
     }
 
 }

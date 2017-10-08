@@ -1,38 +1,62 @@
 package ragingpython.ezmoney;
 
-import android.content.Context;
+import android.database.Cursor;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainScreen extends AppCompatActivity implements View.OnClickListener{
+public class MainScreen extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener{
 
-    private EZDbContainer dbConnector;
+    private EZDbContainer db;
 
     private Button btnTest;
+    private Button btnTest2;
     private LinearLayout walletsContainer;
+    private WalletVisualComponent c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        db = EZDbContainer.getInstance(getApplicationContext());
+
         btnTest=(Button) findViewById(R.id.btnTest);
+        btnTest2=(Button) findViewById(R.id.buttonTst2);
         walletsContainer = (LinearLayout) findViewById(R.id.walletsContainer);
         btnTest.setOnClickListener(this);
-        for (int i=0; i<3; i++) {
-            WalletVisualComponent c = new WalletVisualComponent(getApplicationContext(),"Wallet"+String.valueOf(i+1),Float.valueOf(i*i*i));
-            walletsContainer.addView(c);
-        }
+        btnTest2.setOnClickListener(this);
     }
 
     public void onClick(View view) {
         if (view==btnTest) {
-            EZDbContainer db = EZDbContainer.getInstance(getApplicationContext());
-            Toast.makeText(this, String.valueOf(db.createWallet("test1",0)), Toast.LENGTH_SHORT).show();
+            db.createWallet("wallet1", 50);
+            refreshWallets();
+        }
+        if (view==btnTest2) {
+            ((Button) view).setText(String.valueOf(c.getHeight())+" "+String.valueOf((getApplicationContext().getResources().getDisplayMetrics().ydpi/72.0f)));
+            btnTest.setText(String.valueOf(walletsContainer.getHeight()));
+        }
+    }
+
+    public boolean onTouch(View view, MotionEvent motion) {
+        return false;
+    }
+
+    public void refreshWallets() {
+        Cursor cursor = db.getWallets();
+        cursor.moveToFirst();
+
+        walletsContainer.removeAllViews();
+        for (int i=0; i< cursor.getCount(); i++) {
+            c = new WalletVisualComponent(getApplicationContext(), cursor);
+            walletsContainer.addView(c);
+            cursor.moveToNext();
         }
     }
 }

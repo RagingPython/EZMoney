@@ -9,11 +9,11 @@
         android:id="@+id/textView_walletName"
         android:layout_width="wrap_content"
         android:layout_height="16pt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:textSize="12pt"
-        android:text="name" />
+        android:text="name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/textView_balance"

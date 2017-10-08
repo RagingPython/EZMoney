@@ -40,15 +40,15 @@ public class EZDbContainer {
     }
 
     public Cursor getWallets(){
-        return database.query("wallets",null,null,null,null,null,null);
+        return database.query("walletsView",null,null,null,null,null,null);
     }
 
     public long createOperation(long id_from, long id_to, float amount){
         if ((id_from==-1)&(id_to==-1)) {return -1;}
 
         ContentValues values = new ContentValues();
-        if (id_from!=-1) {values.put("id_from", id_from);}
-        if (id_to!=-1) {values.put("id_to", id_to);}
+        if (id_from!=-1) {values.put("idFrom", id_from);}
+        if (id_to!=-1) {values.put("idTo", id_to);}
         values.put("amount", amount);
         return database.insert("operations", null,  values);
     }
