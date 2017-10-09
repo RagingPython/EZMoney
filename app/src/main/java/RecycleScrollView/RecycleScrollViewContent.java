@@ -8,7 +8,6 @@ public abstract class RecycleScrollViewContent {
 
     abstract public View createInstance(Context context);
     abstract public void updateElement(View view, int index);
-    abstract public void updateData();
     abstract public int getCount();
 
     protected void setOnUpdateContentListener(OnUpdateContentListener listener) {
@@ -16,6 +15,8 @@ public abstract class RecycleScrollViewContent {
     };
 
     public void update() {
-        parent.onUpdateContent();
+        if (parent != null) {
+            parent.onUpdateContent();
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
+import android.widget.Toast;
 
 public class RecycleScrollView extends ScrollView implements OnUpdateContentListener {
     int count=0;
@@ -44,21 +45,26 @@ public class RecycleScrollView extends ScrollView implements OnUpdateContentList
         childHeight=0;
         layout.removeAllViewsInLayout();
 
-        View v=content.createInstance(getContext());
-        v.setVisibility(INVISIBLE);
-        v.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                childHeight=v.getHeight();
-                if(childHeight!=0) {
-                    v.removeOnLayoutChangeListener(this);
-                }
-                populateLayout();
-            }
-        });
-        layout.addView(v);
+        ViewGroup.LayoutParams par = layout.getLayoutParams();
+        par.height=100;
+        layout.setLayoutParams(par);
 
-        updateLayout();
+
+        //View v=content.createInstance(getContext());
+        //v.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+        //    @Override
+        //    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        //    childHeight=v.getHeight();
+        //        if(childHeight!=0) {
+        //            v.removeOnLayoutChangeListener(this);
+        //            populateLayout();
+        //        }
+        //    }
+        //});
+        //layout.addView(v);
+
+        childHeight =57;
+        populateLayout();
     }
 
     public void onUpdateContent() {
@@ -78,9 +84,8 @@ public class RecycleScrollView extends ScrollView implements OnUpdateContentList
         layout.addView(topSpacing);
         if ((h!=0)&(childHeight!=0)) {
             visibleInFrameCount =(int) (Math.ceil(h/childHeight)+1);
-            for (int i = 0; i> visibleInFrameCount; i++) {
+            for (int i = 0; i< visibleInFrameCount; i++) {
                 v=content.createInstance(getContext());
-                v.setVisibility(INVISIBLE);
                 layout.addView(content.createInstance(getContext()));
             }
         }
@@ -91,14 +96,14 @@ public class RecycleScrollView extends ScrollView implements OnUpdateContentList
         int firstVisibleIndex = 0;
         if (childHeight!=0) {
             firstVisibleIndex = Math.max((int) Math.floor(getScrollY() / childHeight-0.5f), 0);
-            firstVisibleIndex = Math.min(firstVisibleIndex, count-visibleInFrameCount);
+            firstVisibleIndex = Math.min(firstVisibleIndex, Math.max(count-visibleInFrameCount,0));
             for (int i=firstVisibleIndex;i<Math.min(firstVisibleIndex+visibleInFrameCount,count);i++) {
                 content.updateElement(layout.getChildAt(i-firstVisibleIndex),i);
             }
+            ViewGroup.LayoutParams par = topSpacing.getLayoutParams();
+            par.height= firstVisibleIndex*childHeight;
+            topSpacing.setLayoutParams(par);
         }
-        ViewGroup.LayoutParams par = topSpacing.getLayoutParams();
-        par.height= firstVisibleIndex*childHeight;
-        topSpacing.setLayoutParams(par);
     }
 
     @Override
@@ -106,4 +111,13 @@ public class RecycleScrollView extends ScrollView implements OnUpdateContentList
         updateLayout();
         super.onScrollChanged(l, t, oldl, oldt);
     }
+
+    public String debug(){
+
+        ViewGroup.LayoutParams par = layout.getLayoutParams();
+        par.height=100;
+        layout.setLayoutParams(par);
+        layout.requestLayout();
+        return String.valueOf(count)+ " " + String.valueOf(childHeight) + " " + String.valueOf(visibleInFrameCount) + " " + String.valueOf(getHeight()) + " "+ String.valueOf(layout.getHeight());
+     };
 }
