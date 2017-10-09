@@ -15,7 +15,7 @@ public class WalletVisualComponent extends RelativeLayout implements View.OnClic
     private TextView viewBalance;
 
 
-    public WalletVisualComponent(Context context, Cursor walletCursor) {
+    public WalletVisualComponent(Context context) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.wallet_item, this);
@@ -23,10 +23,11 @@ public class WalletVisualComponent extends RelativeLayout implements View.OnClic
         viewName = (TextView) findViewById(R.id.textView_walletName);
         viewBalance = (TextView) findViewById(R.id.textView_balance);
         btnShowOperations.setOnClickListener(this);
+    }
 
-        int columnId;
-        viewName.setText(walletCursor.getString(walletCursor.getColumnIndex("name")));
-        viewBalance.setText(walletCursor.getString(walletCursor.getColumnIndex("balance")));
+    public void setContent(Cursor cursor) {
+        viewName.setText(cursor.getString(cursor.getColumnIndex("name")));
+        viewBalance.setText(cursor.getString(cursor.getColumnIndex("balance")));
     }
 
     public void onClick(View view) {

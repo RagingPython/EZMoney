@@ -2,10 +2,13 @@ package ragingpython.ezmoney;
 
 import android.database.Cursor;
 
+import android.os.Build;
+import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -16,7 +19,7 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
 
     private Button btnTest;
     private Button btnTest2;
-    private LinearLayout walletsContainer;
+    private DynamicScrollView walletsContainer;
     private WalletVisualComponent c;
 
     @Override
@@ -28,14 +31,31 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
 
         btnTest=(Button) findViewById(R.id.btnTest);
         btnTest2=(Button) findViewById(R.id.buttonTst2);
-        walletsContainer = (LinearLayout) findViewById(R.id.walletsContainer);
+        walletsContainer = (DynamicScrollView) findViewById(R.id.walletsContainer);
         btnTest.setOnClickListener(this);
         btnTest2.setOnClickListener(this);
+
+
+        final ViewTreeObserver vto = walletsContainer.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                walletsContainer.initialize(getApplicationContext());
+                ViewTreeObserver obs = walletsContainer.getViewTreeObserver();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    obs.removeOnGlobalLayoutListener(this);
+                } else {
+                    obs.removeGlobalOnLayoutListener(this);
+                }
+
+            }
+        });
     }
+
 
     public void onClick(View view) {
         if (view==btnTest) {
-            db.createWallet("wallet1", 50);
+            //db.createWallet("wallet1", 50);
             refreshWallets();
         }
         if (view==btnTest2) {
@@ -52,11 +72,7 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
         Cursor cursor = db.getWallets();
         cursor.moveToFirst();
 
-        walletsContainer.removeAllViews();
-        for (int i=0; i< cursor.getCount(); i++) {
-            c = new WalletVisualComponent(getApplicationContext(), cursor);
-            walletsContainer.addView(c);
-            cursor.moveToNext();
-        }
+        walletsContainer.updateWallets(cursor);
+
     }
 }
