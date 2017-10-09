@@ -33,14 +33,10 @@ public class DynamicScrollView extends ScrollView {
     public void initialize(Context context) {
         walletsLayout=new LinearLayout(context);
         walletsLayout.setOrientation(LinearLayout.VERTICAL);
-        walletsLayout.setLayoutParams(new LinearLayout.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        walletsLayout.setLayoutParams(new LinearLayout.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
 
         topSpacing = new Space(context);
         topSpacing.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-
-
-        bottomSpacing = new Space(context);
-        bottomSpacing.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
 
         this.addView(walletsLayout);
 
@@ -59,10 +55,15 @@ public class DynamicScrollView extends ScrollView {
             w = new WalletVisualComponent(context);
 
             walletsList.addLast(new WalletVisualComponent(context));
+            walletsLayout.addView(w);
+
 
         }
+    }
 
-        walletsLayout.addView(bottomSpacing);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
     }
 
     public void updateWallets(Cursor cursor){
@@ -97,6 +98,7 @@ public class DynamicScrollView extends ScrollView {
         if (Math.floor(oldt/66)!=Math.floor(t/66)) {
             int s = (int) Math.floor(t/66);
 
+
             ViewGroup.LayoutParams par = topSpacing.getLayoutParams();
             par.height=s*66;
             topSpacing.setLayoutParams(par);
@@ -110,6 +112,7 @@ public class DynamicScrollView extends ScrollView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         updateVisual(l, t, oldl, oldt);
+
         super.onScrollChanged(l, t, oldl, oldt);
     }
 }
