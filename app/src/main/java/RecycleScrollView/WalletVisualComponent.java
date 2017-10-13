@@ -1,4 +1,4 @@
-package ragingpython.ezmoney;
+package RecycleScrollView;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ragingpython.ezmoney.R;
 
 public class WalletVisualComponent extends RelativeLayout implements View.OnClickListener {
     private Button btnShowOperations;

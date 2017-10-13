@@ -5,22 +5,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.Date;
-
-public class EZDbContainer {
+public class DbContainer {
     private SQLiteDatabase database;
-    private EZSQLiteOpenHelper helper;
-    private static EZDbContainer instance;
+    private DbOpenHelper helper;
+    private static DbContainer instance;
 
-    public static synchronized EZDbContainer getInstance(Context context) {
+    public static synchronized DbContainer getInstance(Context context) {
         if (instance == null) {
-            instance = new EZDbContainer(context);
+            instance = new DbContainer(context);
         }
         return instance;
     }
 
-    public EZDbContainer(Context context) {
-        helper = new EZSQLiteOpenHelper(context);
+    public DbContainer(Context context) {
+        helper = new DbOpenHelper(context);
         database = helper.getWritableDatabase();
     }
 

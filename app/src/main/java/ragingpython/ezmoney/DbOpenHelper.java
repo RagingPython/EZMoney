@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class EZSQLiteOpenHelper extends SQLiteOpenHelper {
+public class DbOpenHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_CREATE_WALLETS = "create table wallets(id integer primary key asc autoincrement, name text)";
     private static final String DB_CREATE_OPERATIONS = "create table operations(id integer primary key asc autoincrement, idFrom integer references wallets(id) on delete set null, idTo integer references wallets(id) on delete set null, amount float)";
@@ -12,7 +12,7 @@ public class EZSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "DataStorage";
 
-    public EZSQLiteOpenHelper(Context context) {
+    public DbOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 

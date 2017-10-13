@@ -1,10 +1,8 @@
-package ragingpython.ezmoney;
+package RecycleScrollView;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
-
-import RecycleScrollView.RecycleScrollViewContent;
 
 /**
  * Created by Admin on 09.10.2017.
