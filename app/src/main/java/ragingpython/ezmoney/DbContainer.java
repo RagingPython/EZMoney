@@ -57,4 +57,5 @@ public class DbContainer {
     public Cursor getOperations(){
         return database.query("operations",null,null,null,null,null,null);
     }
+
 }
