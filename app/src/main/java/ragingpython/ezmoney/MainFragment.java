@@ -1,21 +1,17 @@
 package ragingpython.ezmoney;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import RecycleScrollView.OnUpdateContentListener;
-
 public class MainFragment extends android.app.Fragment {
 
     private OnFragmentSpeaksListener activityCallback;
     private ListView walletsList;
-    private WalletsAdapter walletsAdapter;
+    private CustomCursorAdapter customCursorAdapter;
 
     public MainFragment() {
     }
@@ -36,8 +32,8 @@ public class MainFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         walletsList = v.findViewById(R.id._walletsList);
-        walletsAdapter = new WalletsAdapter(container.getContext());
-        walletsList.setAdapter(walletsAdapter);
+        customCursorAdapter = new CustomCursorAdapter(container.getContext());
+        walletsList.setAdapter(customCursorAdapter);
         return v;
     }
 
