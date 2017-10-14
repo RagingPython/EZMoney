@@ -38,12 +38,13 @@ public class CustomCursorAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
+        if (i<0) {return null;}
         View view = convertView;
         if (view==null) {
             view = inflater.inflate(layoutId, viewGroup,false);
         }
-
-        ((CustomCursorAdapterElement) view).refreshContent(cursor,i);
+        cursor.moveToPosition(i);
+        ((CustomCursorAdapterElement) view).refreshContent(cursor);
 
         return view;
     }
@@ -56,6 +57,11 @@ public class CustomCursorAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return i;
+    }
+
+    public void setCursor(Cursor cur) {
+        cursor=cur;
+        this.notifyDataSetChanged();
     }
 }
 

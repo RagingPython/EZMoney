@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements OnFragmentSpeaksListener{
         fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id._fragmentContainer, new MainFragment(), "main");
+        transaction.commit();
     }
 
     @Override

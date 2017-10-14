@@ -10,9 +10,9 @@ public class DbContainer {
     private DbOpenHelper helper;
     private static DbContainer instance;
 
-    public static synchronized DbContainer getInstance(Context context) {
+    public static synchronized DbContainer getInstance(Context ctx) {
         if (instance == null) {
-            instance = new DbContainer(context);
+            instance = new DbContainer(ctx);
         }
         return instance;
     }

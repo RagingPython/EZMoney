@@ -6,6 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public interface CustomCursorAdapterElement {
-    public void refreshContent(Cursor cursor, int index);
+    public void refreshContent(Cursor cursor);
 
 }
