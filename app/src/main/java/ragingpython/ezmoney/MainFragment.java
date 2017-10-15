@@ -36,6 +36,7 @@ public class MainFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         walletsList = v.findViewById(R.id._walletsList);
+        walletsList.setDividerHeight(0);
         customCursorAdapter = new CustomCursorAdapter(container.getContext(), R.layout.wallet_item);
         walletsList.setAdapter(customCursorAdapter);
         bb= v.findViewById(R.id.button3);
